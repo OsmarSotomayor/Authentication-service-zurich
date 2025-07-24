@@ -14,5 +14,6 @@ namespace Domain.Interface
         void UpdateUser(User user);
         void DeleUser(User user);
         Task<User> GetUserByEmail(string email, bool track);
+        Task SaveAsync();
     }
 }

@@ -27,7 +27,7 @@ namespace Application.Services
 
         public async Task<LoginResponseDto?> LoginAsync(LoginRequestDto requestDto)
         {
-            var user = await _repo.GetUserByEmail(requestDto.Email, false);
+            var user = await _repo.GetUserByEmail(requestDto.Email, true);
             if (user == null)
                 throw new Exception("Usuario no válido.");
 
@@ -36,6 +36,8 @@ namespace Application.Services
 
             if (!isSuccess)
             {
+                user.LastLoginAttempt = DateTime.UtcNow;
+                await _repo.SaveAsync();
                 throw new Exception("Credenciales invalidas");
             }
             var jwt = _jwt.Generate(user);
