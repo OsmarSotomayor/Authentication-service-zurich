@@ -1,0 +1,6 @@
+@AuthSystemZurich_HostAddress = http://localhost:5177
+
+GET {{AuthSystemZurich_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
