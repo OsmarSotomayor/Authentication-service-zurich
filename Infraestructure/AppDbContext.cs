@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,17 @@ namespace Infraestructure
                 entity.HasIndex(u => u.Email).IsUnique();
                 entity.HasIndex(u => u.UserName).IsUnique();
             });
+        }
+    }
+
+    public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    {
+        public AppDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseSqlServer("Server=tcp:zurichserve.database.windows.net,1433;Initial Catalog=Authentication;Persist Security Info=False;User ID=inicio_sql;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }

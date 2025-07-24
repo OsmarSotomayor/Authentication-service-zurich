@@ -1,4 +1,8 @@
+using Domain.Interface;
 using Infraestructure;
+using Infraestructure.IUtils;
+using Infraestructure.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -14,6 +18,12 @@ builder.Services.AddSwaggerGen();
 //Agrego referencias al proyecto
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Utils
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+//Repository
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 
