@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IAuthenticationService
+    public interface IAuthService
     {
         Task<LoginResponseDto?> LoginAsync(LoginRequestDto requestDto);
     }

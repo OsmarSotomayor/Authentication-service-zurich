@@ -3,23 +3,23 @@ using Application.Interfaces;
 using Domain.Interface;
 using Domain.Models;
 using Infraestructure.IUtils;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services
 {
-    public class AuthenticationService: IAuthenticationService
+    public class AuthService: IAuthService
     {
         private readonly IUserRepository _repo;
         private readonly IJwtTokenGenerator _jwt;
         private readonly PasswordHasher<User> _passwordHasher = new();
-        public AuthenticationService(IUserRepository repo, IJwtTokenGenerator jwt)
+        public AuthService(IUserRepository repo, IJwtTokenGenerator jwt)
         {
             _repo = repo;
             _jwt = jwt;
