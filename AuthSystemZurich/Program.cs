@@ -1,3 +1,5 @@
+using Application.Interfaces;
+using Application.Services;
 using Domain.Interface;
 using Infraestructure;
 using Infraestructure.IUtils;
@@ -44,11 +46,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 //Utils
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 //Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

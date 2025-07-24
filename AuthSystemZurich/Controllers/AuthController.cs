@@ -39,5 +39,25 @@ namespace AuthSystemZurich.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        /// <summary>
+        /// Se agrega un usurio nuevo a la base de datos
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
+        {
+            try
+            {
+                await _authService.RegisterAsync(dto);
+                return Ok(new { message = "Usuario registrado exitosamente." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
     }
 }

@@ -16,6 +16,6 @@ namespace Domain.Models
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
         public DateTime LastLoginAttempt { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

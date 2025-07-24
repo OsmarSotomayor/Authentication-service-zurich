@@ -3,14 +3,15 @@ using Application.Interfaces;
 using Domain.Interface;
 using Domain.Models;
 using Infraestructure.IUtils;
+using Infraestructure.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services
 {
@@ -46,6 +47,26 @@ namespace Application.Services
             {
                 Token = jwt
             };
+        }
+
+        public async Task RegisterAsync(RegisterUserDto dto)
+        {
+            var userExist = await _repo.GetByUsernameAsync(dto.Username, false);
+            if (userExist != null)
+                throw new Exception("User already exist");
+
+            var user = new User
+            {
+                Name = dto.Name,
+                Email = dto.Email,
+                Rol = dto.Rol,
+                UserName = dto.Username,
+                LastLoginAttempt = DateTime.UtcNow,
+                PasswordHash = _passwordHasher.HashPassword(null!, dto.Password)
+            };
+
+            _repo.CreateUser(user);
+            await _repo.SaveAsync();
         }
     }
 }
